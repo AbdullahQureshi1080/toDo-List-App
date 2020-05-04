@@ -53,54 +53,111 @@ class App extends Component {
       alert(" Nothing to Update");
     } else {
       const updateItemIndex = this.state.List.findIndex((l) => {
+        // console.log(l.key);
+        // console.log(item.key);
+        // console.log(l.key === item.key);
         return l.key === item.key;
       });
       const updateItem = { ...this.state.List[updateItemIndex] };
       updateItem.data = this.state.text;
+      // console.log(updateItem);
       const updatedItemList = [...this.state.List];
       updatedItemList[updateItemIndex] = updateItem;
       this.setState({ text: "", List: updatedItemList });
+      // console.log(updatedItemList);
     }
   };
 
-  // disableAddButton = () => {
-
-  // };
-
   render() {
     return (
-      <TouchableWithoutFeedback
-        onPress={() => {
-          Keyboard.dismiss();
-        }}
-      >
+      <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+
         <View style={styles.container}>
           <Text style={styles.title}>My List</Text>
-          <InputAddView
-            placeholder="Enter toDo"
-            changeText={this.handleInput}
-            valueText={this.state.text}
-            addItemProp={this.addItem}
-          />
-          <View>
+            <InputAddView 
+                placeholder="Enter toDo" 
+                changeText = {this.handleInput} 
+                valueText = {this.state.text} 
+                addItemProp = {this.addItem}
+                />
+     {/*************   <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Enter toDo"
+              onChangeText={this.handleInput}
+              value={this.state.text}
+            />
+            <CustomButton name="add-to-list" addEvent={this.addItem} />
+         </View> ***************/}
+        <View>
             <Text style={{ fontSize: 26 }}>{this.state.text}</Text>
-          </View>
+        </View>
+         
 
-          {/*----------------------Scroll View------------------ */}
+{/*----------------------Scroll Views------------------ */}
 
           <ScrollView style={styles.scrollview}>
             {this.state.List.map((item, index) => (
-              <ScrollViewItem
+
+              <ScrollViewItem 
+              key={item.key}
+              activeOpacity={0.4}
+              onPressIn={() => {
+                this.setState({ text: item.data });
+              }}
+              itemData={item.data}
+              indexData={index+1}
+              onPressUpdate={()=>this.updateItem(item)}
+              onPressDelete={()=>this.removeItem()}
+              />
+              
+   {/*************           
+            <TouchableOpacity
                 key={item.key}
                 activeOpacity={0.4}
-                onPress={() => {
+                onPressIn={() => {
                   this.setState({ text: item.data });
                 }}
-                itemData={item.data}
-                indexData={index + 1}
-                onPressUpdate={() => this.updateItem(item)}
-                onPressDelete={() => this.removeItem()}
-              />
+              >
+          {/*----------------------Scroll View Item ------------------ */}      
+
+                <View style={styles.scrollviewItem}>
+
+                  <View style={styles.scrollviewIndexAndData}>
+                      <View style={styles.scrollviewIndexView}>
+                        <Text style={styles.scrollviewIndexText}>{index + 1}</Text>
+                      </View>
+                      <Text style={styles.scrollviewText}>{item.data}</Text>
+                  </View>
+                  
+
+                  <View style={styles.updateDeleteButtonContainer}>
+                    
+                     {/*----------------------Update Item------------------ */}
+
+                  <TouchableOpacity onPress={() => this.updateItem(item)}>
+                    <View style={styles.updateIconContainer}>
+                      <MaterialIcons
+                        name="update"
+                        style={styles.updateDeleteText}
+                      />
+                    </View>
+                  </TouchableOpacity>
+
+                   {/*----------------------Remove Item------------------ */}
+                   
+                     <TouchableOpacity onPress={() => this.removeItem()}>
+                    <View style={styles.deleteIconContainer}>
+                      <AntDesign name="minus" style={styles.updateDeleteText} />
+                    </View>
+                     </TouchableOpacity>
+
+                  </View>
+
+                </View>
+              </TouchableOpacity>  *************/}   
+
+
             ))}
           </ScrollView>
         </View>
@@ -109,7 +166,7 @@ class App extends Component {
   }
 }
 const styles = StyleSheet.create({
-  scrollviewIndexView: {
+   scrollviewIndexView: {
     backgroundColor: "grey",
     width: "10%",
     alignItems: "center",
@@ -120,15 +177,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
   },
-  scrollviewIndexAndData: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "70%",
+  scrollviewIndexAndData:{
+    flexDirection:"row",
+    justifyContent:"flex-start",
+    width:"70%",
   },
-  updateDeleteButtonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "30%",
+  updateDeleteButtonContainer:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+    width:"30%",
   },
   updateIconContainer: {
     backgroundColor: "#13517e",

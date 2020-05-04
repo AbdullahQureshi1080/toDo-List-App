@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
-import { Ionicons,Entypo, FontAwesome } from '@expo/vector-icons'
+import { Ionicons,Entypo, FontAwesome } from '@expo/vector-icons';
+
 const CustomButton = (props) => {
     var btnColor = props.color != undefined ? props.color : 'grey';
     return (
