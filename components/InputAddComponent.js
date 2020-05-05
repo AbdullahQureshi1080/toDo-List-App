@@ -13,7 +13,7 @@ const InputAddView = (props) => {
           onChangeText={props.changeText}
           value={props.valueText}
         />
-        <CustomButton name="add-to-list" addEvent={props.addItemProp} />
+        <CustomButton name="add-to-list" addEvent={props.addItemProp} disabled = {props.disabledEmptyInput} />
       </View>
       
     );

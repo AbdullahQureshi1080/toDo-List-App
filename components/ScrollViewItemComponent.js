@@ -11,12 +11,17 @@ import {
 import CustomButton from "./ButtonComponent";
 
 const ScrollViewItem = (props) => {
+  if (props.disabled) {
+    var btnColor = props.color != undefined ? props.color : "grey";
+  } else {
+    var btnColor = props.color != undefined ? props.color : "#446d8b";
+  }
     return (
     <TouchableOpacity
         key={props.key}
         activeOpacity={props.activeOpacity}
         onPress={props.onPress}
-        
+        disabled={props.disabled}
   >
         {/*----------------------Scroll View Item ------------------ */}      
 

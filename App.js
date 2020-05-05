@@ -10,22 +10,16 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import {
-  Entypo,
-  Ionicons,
-  FontAwesome,
-  AntDesign,
-  MaterialIcons,
-} from "@expo/vector-icons";
-
-// import CustomButton from "./components/ButtonComponent";
+import Emoji from 'react-native-emoji';
 import InputAddView from "./components/InputAddComponent";
 import ScrollViewItem from "./components/ScrollViewItemComponent";
+import {todoList} from  "./constants/ToDoListDummy.js";
 
 class App extends Component {
   state = {
     text: "",
-    List: [],
+    List: todoList,
+    disableScrollViewItems:false,
   };
 
   handleInput = (text) => {
@@ -33,19 +27,15 @@ class App extends Component {
   };
 
   addItem = () => {
-    if (this.state.text === "") {
-      alert("Cannot add Nothing");
-    } else {
-      const newList = [...this.state.List];
-      newList.push({ key: Math.random().toString(), data: this.state.text });
-      this.setState({ text: "", List: newList });
-    }
+    const newList = [...this.state.List];
+    newList.push({ key: Math.random().toString(), data: this.state.text });
+    this.setState({ text: "", List: newList });
   };
 
   removeItem = (itemKey) => {
     const updatedList = [...this.state.List];
     updatedList.splice(itemKey, 1);
-    this.setState({ List: updatedList });
+    this.setState({ List: updatedList,text:"" });
   };
 
   updateItem = (item) => {
@@ -63,11 +53,46 @@ class App extends Component {
     }
   };
 
-  // disableAddButton = () => {
-
-  // };
+  disableEnableScrollViewItems = () => {
+    if(this.state.disableScrollViewItems === false){
+      this.setState({disableScrollViewItems:true});
+    }
+    else{
+      this.setState({disableScrollViewItems:false});
+    }
+  };
 
   render() {
+ {/*----------------------Scroll View------------------ */}
+      const scrollView = (
+      <ScrollView style={styles.scrollview}>
+        {this.state.List.map((item, index) => (
+          <ScrollViewItem
+            key={item.key}
+            activeOpacity={0.4}
+            onPress={() => {
+              this.setState({ text: item.data, disableScrollViewItems:true});
+            }}
+            disabled={this.state.disableScrollViewItems}
+            itemData={item.data}
+            indexData={index + 1}
+            onPressUpdate={() => {this.updateItem(item); this.setState({disableScrollViewItems:false})}}
+            onPressDelete={() => {this.removeItem(); this.setState({disableScrollViewItems:false})}}
+          />
+        ))}
+      </ScrollView>
+      );
+
+        {/*----------------------Nothing In List View------------------ */}
+      const emptyScrollView = (
+         <View style={{flexDirection:"row",paddingTop:30}}> 
+         <Text style={{fontSize:28,color:"grey",fontStyle:"italic"}}>
+           No toDos. Enjoy! 
+         </Text>          
+         <Emoji name="sunglasses" style={{fontSize: 27, paddingLeft:10}}/>
+       </View>
+      );
+
     return (
       <TouchableWithoutFeedback
         onPress={() => {
@@ -81,28 +106,12 @@ class App extends Component {
             changeText={this.handleInput}
             valueText={this.state.text}
             addItemProp={this.addItem}
+            disabledEmptyInput = {this.state.text.length<=0}
           />
           <View>
             <Text style={{ fontSize: 26 }}>{this.state.text}</Text>
           </View>
-
-          {/*----------------------Scroll View------------------ */}
-
-          <ScrollView style={styles.scrollview}>
-            {this.state.List.map((item, index) => (
-              <ScrollViewItem
-                key={item.key}
-                activeOpacity={0.4}
-                onPress={() => {
-                  this.setState({ text: item.data });
-                }}
-                itemData={item.data}
-                indexData={index + 1}
-                onPressUpdate={() => this.updateItem(item)}
-                onPressDelete={() => this.removeItem()}
-              />
-            ))}
-          </ScrollView>
+             {this.state.List <=0 ? emptyScrollView : scrollView}
         </View>
       </TouchableWithoutFeedback>
     );
