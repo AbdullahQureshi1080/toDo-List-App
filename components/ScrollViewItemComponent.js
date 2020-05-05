@@ -2,19 +2,15 @@
 import React, {Component} from "react";
 import {Text, TouchableOpacity, View, TextInput, StyleSheet } from "react-native";
 import {
-    Entypo,
-    Ionicons,
-    FontAwesome,
     AntDesign,
     MaterialIcons,
   } from "@expo/vector-icons";
-import CustomButton from "./ButtonComponent";
 
 const ScrollViewItem = (props) => {
   if (props.disabled) {
-    var btnColor = props.color != undefined ? props.color : "grey";
+    var btnColor = props.color != undefined ? props.color : "#13517e";
   } else {
-    var btnColor = props.color != undefined ? props.color : "#446d8b";
+    var btnColor = props.color != undefined ? props.color : "grey";
   }
     return (
     <TouchableOpacity
@@ -40,8 +36,8 @@ const ScrollViewItem = (props) => {
                 
                 {/*----------------------Update Item------------------ */}
 
-            <TouchableOpacity onPress={props.onPressUpdate}>
-                <View style={styles.updateIconContainer}>
+            <TouchableOpacity onPress={props.onPressUpdate} >
+                <View style={{...styles.updateIconContainer,backgroundColor:btnColor}}>
                 <MaterialIcons
                     name="update"
                     style={styles.updateDeleteText}
@@ -93,7 +89,7 @@ const styles = StyleSheet.create({
         width:"27%",
       },
       updateIconContainer: {
-        backgroundColor: "#13517e",
+        // backgroundColor: "#13517e",
         borderRadius: 50,
         padding: 5,
         width: 30,

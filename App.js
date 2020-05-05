@@ -30,6 +30,7 @@ class App extends Component {
     const newList = [...this.state.List];
     newList.push({ key: Math.random().toString(), data: this.state.text });
     this.setState({ text: "", List: newList });
+    Keyboard.dismiss();
   };
 
   removeItem = (itemKey) => {
@@ -93,6 +94,8 @@ class App extends Component {
        </View>
       );
 
+  
+       
     return (
       <TouchableWithoutFeedback
         onPress={() => {
@@ -107,6 +110,7 @@ class App extends Component {
             valueText={this.state.text}
             addItemProp={this.addItem}
             disabledEmptyInput = {this.state.text.length<=0}
+            onPress={()=>this.updateItem(item)}
           />
           <View>
             <Text style={{ fontSize: 26 }}>{this.state.text}</Text>

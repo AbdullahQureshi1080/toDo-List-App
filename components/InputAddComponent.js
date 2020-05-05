@@ -1,10 +1,13 @@
 
 import React, {Component} from "react";
-import {Text, View, TextInput, StyleSheet } from "react-native";
+import {Text, View, TextInput, StyleSheet,TouchableOpacity } from "react-native";
 import CustomButton from "./ButtonComponent";
+import {
+  AntDesign,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 const InputAddView = (props) => {
-    // var btnColor = props.color != undefined ? props.color : 'grey';
     return (
         <View style={styles.inputContainer}>
         <TextInput
@@ -13,7 +16,9 @@ const InputAddView = (props) => {
           onChangeText={props.changeText}
           value={props.valueText}
         />
+        
         <CustomButton name="add-to-list" addEvent={props.addItemProp} disabled = {props.disabledEmptyInput} />
+        
       </View>
       
     );
@@ -22,9 +27,10 @@ const InputAddView = (props) => {
 const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
-        width: "50%",
+        width: "80%",
         justifyContent: "space-between",
         alignItems: "center",
+        paddingLeft:20,
       },
       textInput: {
         borderColor: "#082d5c",
